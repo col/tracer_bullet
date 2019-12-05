@@ -1,18 +1,13 @@
 defmodule TracerBullet.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
 
   use Application
 
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: TracerBullet.Worker.start_link(arg)
-      # {TracerBullet.Worker, arg}
+      {Plug.Cowboy, scheme: :http, plug: TracerBullet.Plug, options: [port: 4001]}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: TracerBullet.Supervisor]
     Supervisor.start_link(children, opts)
   end
